@@ -18,7 +18,6 @@
     state: present
     subnets: "{{ subnets | join(',') }}"
     security_group_ids: "{{ app_security_group.group_id }}"
-    connection_draining_timeout: 60
     listeners:
       - protocol: http
         load_balancer_port: 80
