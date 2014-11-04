@@ -24,7 +24,7 @@
       record=tmdb.iastmo.com
       type=CNAME
       ttl=300
-      value={{ db_facts.invocation.instance.endpoint }}
+      value={{ db_facts.instance.endpoint }}
 
 
 - name: create app security group
