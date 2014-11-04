@@ -79,7 +79,7 @@
     asg_name: "{{ app_name }}"
     scaling_adjustment: 1
     min_adjustment_step: 1
-    cooldown: 300
+    cooldown: 420
   register: scale_up_policy
   tags: scaling_policy
 
