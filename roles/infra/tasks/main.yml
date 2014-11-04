@@ -127,7 +127,7 @@
   rds: >
       command=create
       region="{{ region }}"
-      instance_name="{{ app_name }}_db"
+      instance_name="tm_db"
       db_engine=MySQL
       size=10
       instance_type=db.m1.small
@@ -149,4 +149,4 @@
       record=db.iastmo.com
       type=A
       ttl=7200
-      value={{ db_facts.public_ip }}
+      value={{ db_facts.endpoint }}
