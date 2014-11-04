@@ -125,7 +125,7 @@
 
 - rds: >
       command=create
-      instance_name=my_tm_database
+      instance_name="{{ app_name }}-db"
       region="{{region}}"
       db_engine=MySQL
       size=10
@@ -136,7 +136,7 @@
 - name: Gather RDS information
   rds: >
       command=facts
-      instance_name=my_tm_database
+      instance_name="{{ app_name }}-db"
       register: db_facts
 
 - debug: msg="{{ db_facts }}"
