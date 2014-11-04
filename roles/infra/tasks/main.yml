@@ -15,13 +15,11 @@
   rds: 'command=facts instance_name="{{ app_name }}-db" region="{{ region }}"'
   register: db_facts
 
-- debug: 'msg="{{ db_facts }}"'
-
 - name: Setup R53 record
   route53: >
       command=create
       zone=iastmo.com
-      record=tmdb.iastmo.com
+      record="{{ app_name }}db.iastmo.com"
       type=CNAME
       ttl=300
       value={{ db_facts.instance.endpoint }}
