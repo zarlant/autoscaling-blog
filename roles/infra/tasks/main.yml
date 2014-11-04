@@ -12,7 +12,7 @@
       password=1nsecure
 
 - name: Gather db facts
-  rds: 'command=facts instance_name="{{ app_name }}-db"'
+  rds: 'command=facts instance_name="{{ app_name }}-db" region="{{ region }}"'
   register: db_facts
 
 - debug: 'msg="{{ db_facts }}"'
