@@ -1,5 +1,32 @@
 ---
 # tasks file for myapp_infra
+
+- rds: >
+      command=create
+      instance_name="{{ app_name }}-db"
+      region="{{region}}"
+      db_engine=MySQL
+      size=10
+      instance_type=db.m1.small
+      username=mysql_admin
+      password=1nsecure
+
+- name: Gather db facts
+  rds: 'command=facts instance_name="{{ app_name }}-db"'
+  register: db_facts
+
+- debug: 'msg="{{ db_facts }}"'
+
+- name: Setup R53 record
+  route53: >
+      command=create
+      zone=iastmo.com
+      record=db.iastmo.com
+      type=A
+      ttl=7200
+      value={{ db_facts.endpoint }}
+
+
 - name: create app security group
   ec2_group:
     name: "{{ app_name }}"
@@ -122,28 +149,3 @@
     alarm_actions: 
       - "{{ scale_up_policy.arn }}"
   tags: alarm
-
-- rds: >
-      command=create
-      instance_name="{{ app_name }}-db"
-      region="{{region}}"
-      db_engine=MySQL
-      size=10
-      instance_type=db.m1.small
-      username=mysql_admin
-      password=1nsecure
-
-- name: Gather db facts
-  rds: command=facts instance_name="{{ app_name }}-db"
-  register: db_facts
-
-- debug: msg="{{ db_facts }}"
-
-- name: Setup R53 record
-  route53: >
-      command=create
-      zone=iastmo.com
-      record=db.iastmo.com
-      type=A
-      ttl=7200
-      value={{ db_facts.endpoint }}
