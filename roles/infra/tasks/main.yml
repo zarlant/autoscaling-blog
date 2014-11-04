@@ -1,5 +1,24 @@
 ---
 # tasks file for myapp_infra
+- name: create app security group
+  ec2_group:
+    name: "{{ app_name }}"
+    description: "{{ app_name }} security group"
+    region: "{{ region }}"
+    rules: "{{ sec_group_rules }}"
+    vpc_id: "{{ vpc_id }}"
+  tags: security_groups
+  register: app_security_group
+
+- name: create rds security group
+  ec2_group:
+    name: "{{ app_name }}-mysql-rds"
+    description: "{{ app_name }} rds mysql security group"
+    region: "{{ region }}"
+    rules: "{{ db_sec_group_rules }}"
+    vpc_id: "{{ db_vpc_id }}"
+  tags: security_groups
+  register: db_security_group
 
 - rds: >
       command=create
@@ -10,6 +29,7 @@
       instance_type=db.m1.small
       username=mysql_admin
       password=1nsecure
+      security_groups="{{ db_security_group.group_id }}"
 
 - name: Gather db facts
   rds: 'command=facts instance_name="{{ app_name }}-db" region="{{ region }}"'
@@ -23,18 +43,6 @@
       type=CNAME
       ttl=300
       value={{ db_facts.instance.endpoint }}
-
-
-- name: create app security group
-  ec2_group:
-    name: "{{ app_name }}"
-    description: "{{ app_name }} security group"
-    region: "{{ region }}"
-    rules: "{{ sec_group_rules }}"
-    vpc_id: "{{ vpc_id }}"
-  tags: security_groups
-  register: app_security_group
-
 
 - name: launch load balancer
   ec2_elb_lb:

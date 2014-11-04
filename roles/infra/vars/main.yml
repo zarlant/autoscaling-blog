@@ -24,6 +24,12 @@ user_data: |
           done
           exit 1
 
+db_sec_group_rules:
+- proto: tcp
+  from_port: 3306
+  to_port: 3306
+  cidr_ip: 0.0.0.0/0
+
 sec_group_rules: 
 - proto: tcp
   from_port: 80
