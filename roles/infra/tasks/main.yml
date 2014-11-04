@@ -124,15 +124,7 @@
   tags: alarm
 
 - name: Create RDS Instance
-  rds: >
-      command=create
-      region="{{ region }}"
-      instance_name="tm_db"
-      db_engine=MySQL
-      size=10
-      instance_type=db.m1.small
-      username=mysql_admin
-      password=1nsecure
+  rds: 'command=create region="{{ region }}" instance_name="{{app_name}}_db" db_engine=MySQL size=10 instance_type=db.m1.small username=mysql_admin password=1nsecure'
 
 - name: Gather RDS information
   rds: >
