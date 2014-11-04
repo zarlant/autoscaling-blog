@@ -123,3 +123,29 @@
       - "{{ scale_up_policy.arn }}"
   tags: alarm
 
+- name: Create RDS Instance
+  rds: >
+      command=create
+      instance_name="{{ app_name }}_db"
+      db_engine=MySQL
+      size=10
+      instance_type=db.m1.small
+      username=mysql_admin
+      password=1nsecure
+
+- name: Gather RDS information
+  rds: >
+      command=facts
+      instance_name="{{ app_name }}_db"
+      register: db_facts
+
+- debug: msg="{{ db_facts }}"
+
+- name: Setup R53 record
+  route53: >
+      command=create
+      zone=iastmo.com
+      record=db.iastmo.com
+      type=A
+      ttl=7200
+      value={{ db_facts.public_ip }}
