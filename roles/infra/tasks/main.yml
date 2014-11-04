@@ -133,8 +133,7 @@
       username=mysql_admin
       password=1nsecure
 
-- name: Gather RDS information
-  rds: >
+- rds: >
       command=facts
       instance_name="{{ app_name }}-db"
       register: db_facts
