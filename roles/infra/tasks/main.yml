@@ -126,6 +126,7 @@
 - name: Create RDS Instance
   rds: >
       command=create
+      region="{{ region }}"
       instance_name="{{ app_name }}_db"
       db_engine=MySQL
       size=10
