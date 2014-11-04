@@ -24,7 +24,7 @@
       record=db.iastmo.com
       type=A
       ttl=7200
-      value={{ db_facts.endpoint }}
+      value={{ db_facts.invocation.instance.endpoint }}
 
 
 - name: create app security group
