@@ -101,7 +101,7 @@
     asg_name: "{{ app_name }}"
     scaling_adjustment: -1
     min_adjustment_step: -1
-    cooldown: 300
+    cooldown: 60
   register: scale_down_policy
   tags: scaling_policy
 
@@ -114,7 +114,7 @@
     asg_name: "{{ app_name }}"
     scaling_adjustment: 1
     min_adjustment_step: 1
-    cooldown: 420
+    cooldown: 60
   register: scale_up_policy
   tags: scaling_policy
 
@@ -127,11 +127,11 @@
     namespace: "AWS/EC2"
     statistic: Average
     comparison: "<="
-    threshold: 5.0
-    period: 300
-    evaluation_periods: 3
+    threshold: 10.0
+    period: 60
+    evaluation_periods: 1
     unit: "Percent"
-    description: "This will alarm when cpu usage average is lower than 5% for 15 minutes "
+    description: "This will alarm when cpu usage average is lower than 10% for 1 minute"
     dimensions: 
       AutoScalingGroupName: "{{ app_name }}"
     alarm_actions: 
@@ -147,11 +147,11 @@
     namespace: "AWS/EC2"
     statistic: Average
     comparison: ">="
-    threshold: 90.0
-    period: 300
-    evaluation_periods: 3
+    threshold: 25.0
+    period: 60
+    evaluation_periods: 1
     unit: "Percent"
-    description: "This will alarm when cpu usage average is higher than 90% for 15 minutes "
+    description: "This will alarm when cpu usage average is higher than 25% for 1 minute "
     dimensions: 
       AutoScalingGroupName: "{{ app_name }}"
     alarm_actions: 
