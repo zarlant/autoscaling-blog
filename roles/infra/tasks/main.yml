@@ -75,6 +75,7 @@
     instance_type: "{{ instance_size }}"
     user_data: "{{ user_data }}"
     volumes: "{{ volumes }}"
+    instance_monitoring: "{{ monitoring }}"
   tags: launch_config
 
 - name: create autoscale groups
