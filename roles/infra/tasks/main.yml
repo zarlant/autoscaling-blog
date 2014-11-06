@@ -29,7 +29,6 @@
       instance_type=db.m1.small
       username=mysql_admin
       password=1nsecure
-      #vpc_security_groups={{ db_security_group.group_id }}
 
 - name: Gather db facts
   rds: 'command=facts instance_name="{{ app_name }}-db" region="{{ region }}"'
